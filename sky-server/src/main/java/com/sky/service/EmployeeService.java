@@ -27,4 +27,26 @@ public interface EmployeeService {
      * @return
      */
     PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+
+    /**
+     * Enable/Disable account
+     * @param status
+     * @param id
+     * @return
+     */
+    void startOrStop(Integer status, Long id);
+
+    /**
+     * according id query employee
+     * @param id
+     * @return
+     */
+    Employee getById(Long id);
+
+    /**
+     * update employee
+     * @param employeeDTO
+     * @return
+     */
+    void update(EmployeeDTO employeeDTO);
 }

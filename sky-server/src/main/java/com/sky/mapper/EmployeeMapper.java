@@ -26,12 +26,25 @@ public interface EmployeeMapper {
             "#{createTime},#{updateTime},#{createUser},#{updateUser},#{status})")
     void insert(Employee employee);
 
+    /**
+     * dynamic query
+     * @param employeePageQueryDTO
+     * @return
+     */
     Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
 
     /**
-     * dynamic query
-     * @param name
+     * Enable/Disable account
+     * @param employee
      * @return
      */
-//    List<Employee> list(String name);
+    void update(Employee employee);
+
+    /**
+     * according id query employee
+     * @param id
+     * @return
+     */
+    @Select("select * from employee where id = #{id}")
+    Employee getById(Long id);
 }

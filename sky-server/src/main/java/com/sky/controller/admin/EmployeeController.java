@@ -98,4 +98,43 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
+    /**
+     * Enable/Disable account
+     * @param status
+     * @param id
+     * @return
+     */
+    @PutMapping("/status/{status}/{id}")
+    @ApiOperation("Enable/Disable")
+    public Result startOrStop(@PathVariable Integer status,@PathVariable Long id){
+        log.info("Enable/Disable account：{},{}",status,id);
+        employeeService.startOrStop(status,id);
+        return Result.success();
+    }
+
+
+    /**
+     * according id query employee
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("according id query employee")
+    public Result<Employee> getById(@PathVariable Long id){
+        Employee employee = employeeService.getById(id);
+        return Result.success(employee);
+    }
+
+    /**
+     * update employee
+     * @param employeeDTO
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("update employee")
+    public Result update(@RequestBody EmployeeDTO employeeDTO){
+        log.info("update employee：{}", employeeDTO);
+        employeeService.update(employeeDTO);
+        return Result.success();
+    }
 }
