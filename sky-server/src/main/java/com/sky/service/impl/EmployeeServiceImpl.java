@@ -112,7 +112,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void save(EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
-        Long currentId = BaseContext.getCurrentId();
+//        Long currentId = BaseContext.getCurrentId();
         //Object Property Copy
         BeanUtils.copyProperties(employeeDTO, employee);
 
@@ -123,14 +123,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
 
         //Set the creation time and modification time
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setCreateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
 
         //Set the current record creator id and modifier id
-        employee.setCreateUser(currentId);//TODO (recent data is fake)
-        employee.setUpdateUser(currentId);
+//        employee.setCreateUser(currentId);
+//        employee.setUpdateUser(currentId);
 
-        employeeMapper.insert(employee);//TODO further process
+        employeeMapper.insert(employee);
     }
 
     /**
@@ -140,27 +140,11 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
-//        // 1. set page parameters, select * from employee limit 0,10
-//
-//        PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
-//
-//        // 2. start page query
-//        List<Employee> employeeList = employeeMapper.list(employeePageQueryDTO.getName());
-//
-//        // 3. parse and encapsulate results
-//        Page<Employee> page = (Page<Employee>) employeeList;
-//
-//        long total = page.getTotal();
-//        List<Employee> records = page.getResult();
-//
-//        return new PageResult(total, records);
 
-
-        // select * from employee limit 0,10
-        //开始分页查询
+        //set properties
         PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
 
-        Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);//后续定义
+        Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
 
         long total = page.getTotal();
         List<Employee> records = page.getResult();
@@ -177,10 +161,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void startOrStop(Integer status, Long id) {
         Employee employee = Employee.builder()
-                .updateTime(LocalDateTime.now())
                 .status(status)
                 .id(id)
-                .updateUser(BaseContext.getCurrentId())
                 .build();
 
         employeeMapper.update(employee);
@@ -208,8 +190,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO, employee);
 
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+//        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.update(employee);
     }

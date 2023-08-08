@@ -81,7 +81,7 @@ public class EmployeeController {
     @ApiOperation("Add Emp")
     public Result save(@RequestBody EmployeeDTO employeeDTO){
         log.info("Add Emp：{}",employeeDTO);
-        employeeService.save(employeeDTO);//该方法后续步骤会定义
+        employeeService.save(employeeDTO);
         return Result.success();
     }
 
@@ -94,7 +94,7 @@ public class EmployeeController {
     @ApiOperation("Employee Page Query")
     public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO){
         log.info("Employee Page Query，parameters：{}", employeePageQueryDTO);
-        PageResult pageResult = employeeService.pageQuery(employeePageQueryDTO);//后续定义
+        PageResult pageResult = employeeService.pageQuery(employeePageQueryDTO);
         return Result.success(pageResult);
     }
 

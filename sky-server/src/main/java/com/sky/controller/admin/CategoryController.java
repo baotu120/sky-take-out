@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin/category")
-@Api(tags = "Category-related api")
+//@Api(tags = "Category-related api")
 @Slf4j
 public class CategoryController {
 

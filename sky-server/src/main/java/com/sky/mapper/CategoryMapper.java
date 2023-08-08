@@ -8,6 +8,7 @@ import com.sky.enumeration.OperationType;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -22,9 +23,10 @@ public interface CategoryMapper {
      * @param category
      */
     @AutoFill(OperationType.INSERT)
-    @Insert("insert into category(type, name, sort, status, create_time, update_time, create_user, update_user)" +
-            " VALUES" +
-            " (#{type}, #{name}, #{sort}, #{status}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})")
+    @Insert("insert into category(type, name, sort, status, " +
+            "create_time, update_time, create_user, update_user)" +
+            " VALUES (#{type}, #{name}, #{sort}, #{status}, " +
+            "#{createTime}, #{updateTime}, #{createUser}, #{updateUser})")
     void insert(Category category);
 
     /**
@@ -54,4 +56,12 @@ public interface CategoryMapper {
      * @return
      */
     List<Category> list(Integer type);
+
+    /**
+     * according id query category
+     * @param id
+     * @return
+     */
+    @Select("select * from category where id = #{id}")
+    Category getById(Long id);
 }
