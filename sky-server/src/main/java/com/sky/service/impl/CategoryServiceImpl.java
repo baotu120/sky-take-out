@@ -85,6 +85,8 @@ public class CategoryServiceImpl implements CategoryService {
                 .status(status)
                 .build();
 
+        categoryMapper.update(category);
+
     }
 
     @Override

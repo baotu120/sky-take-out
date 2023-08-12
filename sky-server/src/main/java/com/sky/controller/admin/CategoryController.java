@@ -90,7 +90,7 @@ public class CategoryController {
      * @param id
      * @return
      */
-    @PostMapping("/status/{status}/{id}")
+    @PutMapping("/status/{status}/{id}")
     @ApiOperation("enable/disable category")
     public Result<String> startOrStop(@PathVariable("status") Integer status, @PathVariable Long id) {
         categoryService.startOrStop(status, id);
