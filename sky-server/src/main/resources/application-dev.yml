@@ -14,6 +14,6 @@ sky:
     database: 0
   alioss:
     endpoint: oss-cn-beijing.aliyuncs.com
-    access-key-id: LTAI5tLBWNHGoPTWPPWeeXir
-    access-key-secret: n4DNeASQRInKE7QQDYAgJcea6iThPK
+    access-key-id:
+    access-key-secret:
     bucket-name: foodie-sky
