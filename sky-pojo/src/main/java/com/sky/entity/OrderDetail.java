@@ -30,7 +30,7 @@ public class OrderDetail implements Serializable {
     //菜品id
     private Long dishId;
 
-    //套餐id
+    //套餐id TODO 这个取消
     private Long setmealId;
 
     //口味

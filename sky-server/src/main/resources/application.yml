@@ -17,6 +17,13 @@ spring:
     port: ${sky.redis.port}
     database: ${sky.redis.database}
 
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: baotu120@qq.com
+    password: qtmkanyaclbncaii
+    protocol: smtps
+
 
 
 mybatis:

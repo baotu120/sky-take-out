@@ -6,6 +6,7 @@ import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.DishService;
 import com.sky.vo.DishVO;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -66,6 +67,20 @@ public class DishController {
     public Result update(@RequestBody DishDTO dishDTO){
         log.info("update dish, {}",dishDTO);
         dishService.update(dishDTO);
+        return Result.success();
+    }
+
+    /**
+     * enable/disable dish
+     *
+     * @param status
+     * @param id
+     * @return
+     */
+    @PutMapping("/status/{status}/{id}")
+    @ApiOperation("enable/disable category")
+    public Result<String> startOrStop(@PathVariable("status") Integer status, @PathVariable Long id) {
+        dishService.startOrStop(status, id);
         return Result.success();
     }
 }

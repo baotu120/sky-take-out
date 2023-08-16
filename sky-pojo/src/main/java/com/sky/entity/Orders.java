@@ -57,7 +57,7 @@ public class Orders implements Serializable {
     //结账时间
     private LocalDateTime checkoutTime;
 
-    //支付方式 1微信，2支付宝
+    //支付方式 1微信，2支付宝 Todo 查看stripe的支付方式 删了
     private Integer payMethod;
 
     //支付状态 0未支付 1已支付 2退款
@@ -84,7 +84,7 @@ public class Orders implements Serializable {
     //订单取消原因
     private String cancelReason;
 
-    //订单拒绝原因
+    //订单拒绝原因 删了
     private String rejectionReason;
 
     //订单取消时间
@@ -102,7 +102,7 @@ public class Orders implements Serializable {
     //打包费
     private int packAmount;
 
-    //餐具数量
+    //餐具数量 删了
     private int tablewareNumber;
 
     //餐具数量状态  1按餐量提供  0选择具体数量

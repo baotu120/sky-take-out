@@ -6,6 +6,7 @@ import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
+import com.sky.entity.Category;
 import com.sky.entity.Dish;
 import com.sky.entity.DishFlavor;
 import com.sky.entity.Employee;
@@ -17,11 +18,15 @@ import com.sky.service.DishService;
 import com.sky.vo.DishVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author: Vic
@@ -33,6 +38,8 @@ public class DishServiceImpl implements DishService {
     private DishMapper dishMapper;
     @Autowired
     private DishFlavorMapper dishFlavorMapper;
+    @Autowired
+    private RedisTemplate redisTemplate;
     @Transactional
     @Override
     public void save(DishDTO dishDTO) {
@@ -49,6 +56,9 @@ public class DishServiceImpl implements DishService {
             dishFlavor.setDishId(dish.getId());
         });
         dishFlavorMapper.insertBatch(flavors);
+
+        //3. delete data which in the redis cache
+        redisTemplate.delete("dish:cache:"+dishDTO.getCategoryId());
     }
 
     /**
@@ -87,6 +97,11 @@ public class DishServiceImpl implements DishService {
         //2. delete dish and delete flavour
         dishMapper.deleteByIds(ids);
         dishFlavorMapper.deleteByDishIds(ids);
+
+        //3. delete data which in the redis cache
+
+        Set<Object> keys = redisTemplate.keys("dish:cache:*");
+        redisTemplate.delete(keys);
     }
 
     @Override
@@ -124,5 +139,44 @@ public class DishServiceImpl implements DishService {
         });
         dishFlavorMapper.insertBatch(flavors);
 
+        //3. delete data which in the redis cache
+
+    }
+
+
+    /**
+     * enable/disable dish
+     *
+     * @param status
+     * @param id
+     * @return
+     */
+    @Override
+    public void startOrStop(Integer status, Long id) {
+        Dish dish = Dish.builder()
+                .id(id)
+                .status(status)
+                .build();
+
+        dishMapper.update(dish);
+    }
+
+    public List<DishVO> listCacheDishWithFlavors (Dish dish){
+        List<Dish> dishList = dishMapper.list(dish);
+
+        List<DishVO> dishVOList = new ArrayList<>();
+
+        for (Dish d : dishList) {
+            DishVO dishVO = new DishVO();
+            BeanUtils.copyProperties(d,dishVO);
+
+            //根据菜品id查询对应的口味
+            List<DishFlavor> flavors = dishFlavorMapper.getByDishId(d.getId());
+
+            dishVO.setFlavors(flavors);
+            dishVOList.add(dishVO);
+        }
+
+        return dishVOList;
     }
 }
